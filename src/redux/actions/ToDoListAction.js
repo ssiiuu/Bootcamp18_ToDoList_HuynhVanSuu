@@ -2,6 +2,7 @@ import {
   ADD_TASK,
   DELETE_TASK,
   DONE_TASK,
+  EDIT_TASK,
 } from "../constants/ToDoListConstant";
 
 export const addTaskToDoList = (newtask) => ({
@@ -16,5 +17,9 @@ export const doneTaskToDoList = (taskId) => ({
 
 export const deleteTaskToDoList = (taskId) => ({
   type: DELETE_TASK,
+  payload: taskId,
+});
+export const editTaskToDoList = (taskId) => ({
+  type: EDIT_TASK,
   payload: taskId,
 });

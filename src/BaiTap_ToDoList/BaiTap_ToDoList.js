@@ -4,6 +4,7 @@ import {
   addTaskToDoList,
   deleteTaskToDoList,
   doneTaskToDoList,
+  editTaskToDoList,
 } from "../redux/actions/ToDoListAction";
 
 class BaiTap_ToDoList extends Component {
@@ -19,9 +20,13 @@ class BaiTap_ToDoList extends Component {
           <tr key={index} className="text-white">
             <th>{task.taskName}</th>
             <th className="text-right">
-              <button className="btn btn-light ml-1 ">
+              <button
+                onClick={() => this.props.dispatch(editTaskToDoList(task))}
+                className="btn btn-light ml-1 "
+              >
                 <i className="fa fa-edit"></i>
               </button>
+
               <button
                 onClick={() => {
                   this.props.dispatch(doneTaskToDoList(task.id));
@@ -30,6 +35,7 @@ class BaiTap_ToDoList extends Component {
               >
                 <i className="fa fa-check"></i>
               </button>
+
               <button
                 onClick={() => {
                   this.props.dispatch(deleteTaskToDoList(task.id));
@@ -86,6 +92,7 @@ class BaiTap_ToDoList extends Component {
           <div className="form-group ">
             <label htmlFor="inputToDo">Task name</label>
             <input
+              value={this.props.taskEdit.taskName}
               onChange={(e) => {
                 this.setState(
                   {
@@ -117,7 +124,7 @@ class BaiTap_ToDoList extends Component {
 
                 // this.props.handleAddTask(newTask);
               }}
-              className="btn btn-success mt-2 mr-2"
+              className="btn btn-outline-warning mt-2 mr-2"
             >
               Add task
             </button>
@@ -140,10 +147,19 @@ class BaiTap_ToDoList extends Component {
       </div>
     );
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.taskEdit.id !== this.props.taskEdit.id) {
+      this.setState({
+        taskName: this.props.taskEdit.taskName,
+      });
+    }
+  }
 }
+
 const mapStateToProps = (state) => {
   return {
     taskList: state.ToDoListReducer.taskList,
+    taskEdit: state.ToDoListReducer.taskEdit,
   };
 };
 

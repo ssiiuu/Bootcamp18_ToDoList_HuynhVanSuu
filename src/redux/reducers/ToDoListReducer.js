@@ -2,15 +2,17 @@ import {
   ADD_TASK,
   DELETE_TASK,
   DONE_TASK,
+  EDIT_TASK,
 } from "../constants/ToDoListConstant";
 
 let initialState = {
   taskList: [
-    // { id: "task-1", taskName: "task-1", done: false },
-    // { id: "task-2", taskName: "task-2", done: true },
-    // { id: "task-3", taskName: "task-3", done: true },
-    // { id: "task-4", taskName: "task-4", done: false },
+    { id: "task-1", taskName: "task-1", done: false },
+    { id: "task-2", taskName: "task-2", done: true },
+    { id: "task-3", taskName: "task-3", done: true },
+    { id: "task-4", taskName: "task-4", done: false },
   ],
+  taskEdit: { id: "task-1", taskName: "task-1", done: false },
 };
 
 export const ToDoListReducer = (state = initialState, { type, payload }) => {
@@ -42,7 +44,7 @@ export const ToDoListReducer = (state = initialState, { type, payload }) => {
     case DONE_TASK: {
       let taskListClone = [...state.taskList];
       let index = taskListClone.findIndex((task) => task.id === payload);
-      if (index !== 1) {
+      if (index !== -1) {
         taskListClone[index].done = true;
       }
 
@@ -52,14 +54,16 @@ export const ToDoListReducer = (state = initialState, { type, payload }) => {
     case DELETE_TASK: {
       let taskListClone = [...state.taskList];
       let index = taskListClone.findIndex((task) => task.id === payload);
-      if (index !== 1) {
+      if (index !== -1) {
         taskListClone.splice(index, 1);
       }
 
       //   state.taskList = taskListClone;
       return { ...state, taskList: taskListClone };
     }
-
+    case EDIT_TASK: {
+      return { ...state, taskEdit: payload };
+    }
     default:
       return { ...state };
   }
